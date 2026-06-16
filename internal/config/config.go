@@ -26,6 +26,14 @@ func FilePath() (string, error) {
 	return filepath.Join(home, ".tunnels"), nil
 }
 
+func SSHConfigPath() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(home, ".ssh", "config"), nil
+}
+
 func Load() (*Config, error) {
 	path, err := FilePath()
 	if err != nil {

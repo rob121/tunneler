@@ -42,16 +42,45 @@ Toggling the tunnel in the menu bar runs:
 ssh -N -D 1080 example-host
 ```
 
+Changes to `~/.tunnels` are picked up automatically. Changes to `~/.ssh/config` apply the next time a tunnel is started.
+
 ## Run
+
+macOS opens bare executables from Finder in **Terminal**. Use the `.app` bundle instead:
+
+```bash
+make run
+```
+
+This builds `Tunneler.app` (menu bar only, no Terminal, no Dock icon) and launches it.
+
+To install for everyday use (Finder, Spotlight, Login Items):
+
+```bash
+make install
+```
+
+Then launch **Tunneler** from `/Applications`.
+
+For development from a terminal:
 
 ```bash
 go run ./cmd/tunneler
 ```
 
-The app appears as an icon in the menu bar. Use **Manage** in the menu to open `~/.tunnels` in your default editor.
+When launched as an app, logs are written to `~/Library/Logs/Tunneler.log`.
+
+## Menu
+
+- Click a tunnel to start or stop it
+- **Manage** — open `~/.tunnels` in your default editor
+- **Start at Login** / **Quit** — provided by the menu bar framework
 
 ## Build
 
 ```bash
-go build -o tunneler ./cmd/tunneler
+make          # creates Tunneler.app in this directory
+make install  # copies Tunneler.app to /Applications
 ```
+
+Do **not** double-click a bare binary built with `go build -o tunneler` — macOS will open Terminal. Always use `Tunneler.app`.

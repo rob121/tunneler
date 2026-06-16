@@ -4,11 +4,13 @@ import (
 	"log"
 
 	"github.com/rob121/tunneler/internal/config"
+	"github.com/rob121/tunneler/internal/logging"
 	"github.com/rob121/tunneler/internal/tunnel"
 	"github.com/rob121/tunneler/internal/ui"
 )
 
 func main() {
+	logging.Setup()
 	cfg, err := config.Load()
 	if err != nil {
 		log.Fatalf("loading config: %v", err)

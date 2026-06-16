@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os/exec"
@@ -9,6 +10,7 @@ import (
 	"github.com/rob121/tunneler/internal/assets"
 	"github.com/rob121/tunneler/internal/config"
 	"github.com/rob121/tunneler/internal/tunnel"
+	"github.com/rob121/tunneler/internal/watch"
 )
 
 func Run(mgr *tunnel.Manager) {
@@ -23,6 +25,11 @@ func Run(mgr *tunnel.Manager) {
 	} else {
 		app.SetMenuState(&menuet.MenuState{Image: iconPath})
 	}
+
+	go watch.Run(context.Background(), watch.Config{
+		Manager:     mgr,
+		MenuChanged: app.MenuChanged,
+	})
 
 	app.Children = func() []menuet.MenuItem {
 		var items []menuet.MenuItem

@@ -23,7 +23,20 @@ func NewManager(cfg *config.Config) *Manager {
 }
 
 func (m *Manager) Tunnels() []config.Tunnel {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	return m.cfg.Tunnels
+}
+
+func (m *Manager) Reload() error {
+	cfg, err := config.Load()
+	if err != nil {
+		return err
+	}
+	m.mu.Lock()
+	m.cfg = cfg
+	m.mu.Unlock()
+	return nil
 }
 
 func (m *Manager) Running(name string) bool {
